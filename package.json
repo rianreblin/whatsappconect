@@ -7,11 +7,9 @@
     "start": "wppconnect-server --no-browser"
   },
   "dependencies": {
-    "wppconnect-server": "^1.0.0"
+    "wppconnect-server": "github:wppconnect-team/wppconnect-server"
   },
   "engines": {
-    "node": "18.x"
-  },
-  "author": "Rian",
-  "license": "MIT"
+    "node": "20.x"
+  }
 }
