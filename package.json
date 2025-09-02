@@ -1,15 +1,15 @@
 {
   "name": "wppconnect-server",
   "version": "1.0.0",
-  "description": "Servidor WPPConnect para WhatsApp 24/7",
+  "description": "Servidor WPPConnect rodando no Render 24/7",
   "main": "index.js",
   "scripts": {
-    "start": "wppconnect-server --no-browser"
+    "start": "node index.js"
   },
   "dependencies": {
-    "wppconnect-server": "github:wppconnect-team/wppconnect-server"
+    "@wppconnect-team/wppconnect-server": "2.8.6"
   },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   }
 }
