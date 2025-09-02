@@ -1,36 +1,38 @@
-const express = require("express");
-const wppconnect = require("@wppconnect-team/wppconnect");
+// index.js
+const wppconnect = require('@wppconnect-team/wppconnect');
 
-const app = express();
-app.use(express.json());
+// Cria a sessão do WPPConnect
+wppconnect
+  .create({
+    session: 'bot-session', // nome da sessão
+    puppeteerOptions: {
+      executablePath: '/usr/bin/chromium', // caminho do Chromium no Render
+      headless: true,                   // roda sem interface gráfica
+      args: ['--no-sandbox', '--disable-setuid-sandbox'] // necessário no Render
+    },
+    catchQR: (qrCode, asciiQR) => {
+      console.log('Escaneie o QR Code abaixo com o WhatsApp do seu celular:');
+      console.log(asciiQR); // QR em ASCII no terminal
+    },
+    statusFind: (statusSession, session) => {
+      console.log(`Status da sessão: ${statusSession}`);
+    },
+    logQR: false // evita mostrar QR duplicado
+  })
+  .then((client) => start(client))
+  .catch((err) => console.error('Erro ao iniciar o bot:', err));
 
-let clientWpp;
+// Função principal do bot
+function start(client) {
+  console.log('Bot iniciado com sucesso!');
 
-// Inicializa o WPPConnect
-wppconnect.create({
-  session: 'bot-session',
-  headless: true,
-  useChrome: false,
-  debug: false
-}).then(client => {
-  clientWpp = client;
-  console.log("✅ WPPConnect iniciado!");
-}).catch(err => console.error("Erro ao iniciar:", err));
+  // Exemplo: envia mensagem de teste
+  client.onMessage((message) => {
+    console.log('Mensagem recebida:', message.body);
 
-// Rota para enviar mensagem
-app.post("/send-message", async (req, res) => {
-  if (!clientWpp) {
-    return res.status(500).send({ error: "Cliente WPPConnect não iniciado" });
-  }
-
-  const { number, message } = req.body;
-  try {
-    await clientWpp.sendText(number + "@c.us", message);
-    res.send({ status: "Mensagem enviada", number, message });
-  } catch (err) {
-    res.status(500).send({ error: "Falha ao enviar mensagem", details: err });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("🚀 Servidor rodando na porta", PORT));
+    // Responde automaticamente
+    if (message.body.toLowerCase() === 'oi') {
+      client.sendText(message.from, 'Olá! Bot funcionando 😎');
+    }
+  });
+}
