@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "dependencies": {
-    "wppconnect": "rianreblin/wppconnect#1.37.4",
-    "puppeteer-core": "^21.3.8"
-  }
+"dependencies": {
+  "wppconnect": "https://github.com/rianreblin/wppconnect/archive/refs/tags/1.37.4.tar.gz",
+  "puppeteer-core": "^21.3.8"
 }
