@@ -1,13 +1,19 @@
 {
   "name": "whatsappconect",
   "version": "1.0.0",
+  "description": "Bot WhatsApp com WPPConnect",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "wppconnect": "^1.37.4",
-    "puppeteer": "^22.6.5"
+    "wppconnect": "https://github.com/wppconnect-team/wppconnect.git",
+    "puppeteer": "^21.3.8",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.12.2",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
