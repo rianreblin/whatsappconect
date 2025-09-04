@@ -1,31 +1,45 @@
-const express = require('express');
-const wppconnect = require('@wppconnect-team/wppconnect');
+const wppconnect = require('wppconnect');
 
-const app = express();
-const port = process.env.PORT || 10000;
+async function startWhatsApp() {
+  try {
+    const client = await wppconnect.create({
+      session: 'whatsapp-bot',     // nome da sessão
+      useChrome: true,             // força o uso do Chromium
+      headless: true,              // roda sem abrir janela
+      autoClose: 0,                // não fecha sozinho
+      catchQR: (qrCode, asciiQR, attempts, urlCode) => {
+        console.log('QR Code gerado, escaneie no WhatsApp Web');
+        console.log(asciiQR); // imprime QR no console
+      },
+      puppeteerOptions: {
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process',
+          '--disable-gpu'
+        ],
+        executablePath: '/usr/bin/chromium-browser' // Caminho do Chromium no Render
+      }
+    });
 
-function start(client) {
-  client.onMessage((message) => {
-    if (message.body === 'Oi') {
-      client.sendText(message.from, 'Olá! Estou conectado com sucesso 🚀');
-    }
-  });
+    console.log('WhatsApp iniciado com sucesso!');
+
+    // Exemplo de evento de mensagem recebida
+    client.onMessage(async (message) => {
+      console.log('Mensagem recebida:', message.body);
+      if (message.body.toLowerCase() === 'ping') {
+        await client.sendText(message.from, 'Pong!');
+      }
+    });
+
+  } catch (err) {
+    console.error('Erro ao iniciar WPPConnect:', err);
+  }
 }
 
-wppconnect.create({
-  session: 'whatsapp-bot',
-  puppeteerOptions: {
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-    // ❌ removido executablePath
-  }
-})
-.then(client => start(client))
-.catch(err => console.error('Erro ao iniciar WPPConnect:', err));
-
-app.get('/', (req, res) => {
-  res.send('Servidor rodando com WPPConnect 🚀');
-});
-
-app.listen(port, () => {
-  console.log(`🚀 Servidor rodando na porta ${port}`);
-});
+// Inicia o bot
+startWhatsApp();
