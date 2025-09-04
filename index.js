@@ -2,27 +2,29 @@ const express = require('express');
 const wppconnect = require('@wppconnect-team/wppconnect');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
-app.get('/', (req, res) => {
-  res.send('✅ Bot do WhatsApp rodando com WPPConnect no Render!');
-});
+function start(client) {
+  client.onMessage((message) => {
+    if (message.body === 'Oi') {
+      client.sendText(message.from, 'Olá! Estou conectado com sucesso 🚀');
+    }
+  });
+}
 
 wppconnect.create({
   session: 'whatsapp-bot',
   puppeteerOptions: {
-    args: ['--no-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/usr/bin/chromium-browser' // força Chromium no Render
   }
-}).then(client => start(client))
-  .catch(err => console.error(err));
+})
+.then(client => start(client))
+.catch(err => console.error('Erro ao iniciar WPPConnect:', err));
 
-function start(client) {
-  client.onMessage(message => {
-    if (message.body === 'ping') {
-      client.sendText(message.from, 'pong 🏓');
-    }
-  });
-}
+app.get('/', (req, res) => {
+  res.send('Servidor rodando com WPPConnect 🚀');
+});
 
 app.listen(port, () => {
   console.log(`🚀 Servidor rodando na porta ${port}`);
