@@ -1,17 +1,20 @@
-const wppconnect = require('@wppconnect-team/wppconnect');
+const wppconnect = require('wppconnect');
 
 wppconnect.create({
   session: 'bot1',
-  puppeteerOptions: {
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  },
-}).then(client => start(client));
+  headless: true,
+  browserExecutablePath: '/usr/bin/chromium-browser' // Caminho do Chromium do Render
+})
+.then((client) => start(client))
+.catch((err) => console.error('Erro ao iniciar WPPConnect:', err));
 
 function start(client) {
-  client.onMessage(message => {
+  console.log('Bot iniciado!');
+
+  // Exemplo de resposta automática
+  client.onMessage((message) => {
     if (message.body === 'Oi') {
-      client.sendText(message.from, 'Olá! Bot ativo 😎');
+      client.sendText(message.from, 'Olá! Tudo bem?');
     }
   });
 }
