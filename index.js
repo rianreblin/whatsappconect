@@ -15,8 +15,8 @@ function start(client) {
 wppconnect.create({
   session: 'whatsapp-bot',
   puppeteerOptions: {
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: '/usr/bin/chromium-browser' // força Chromium no Render
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    // ❌ removido executablePath
   }
 })
 .then(client => start(client))
