@@ -1,21 +1,18 @@
 const wppconnect = require('@wppconnect-team/wppconnect');
 
 wppconnect.create({
-    session: 'bot-whatsapp',
-    browserArgs: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process',
-        '--disable-gpu'
-    ],
-    headless: true,
-    useChrome: false
+  session: 'bot-whatsapp',
+  headless: true, // Chromium headless
+  browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
 }).then(client => {
-    console.log('WhatsApp conectado!');
+  console.log('✅ WPPConnect iniciado com sucesso');
+
+  client.onMessage(message => {
+    if (message.body.toLowerCase() === 'oi') {
+      client.sendText(message.from, 'Olá! Eu sou seu bot 😄');
+    }
+  });
+
 }).catch(err => {
-    console.error('Erro ao iniciar WPPConnect:', err);
+  console.error('❌ Erro ao iniciar WPPConnect:', err);
 });
