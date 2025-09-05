@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm install --legacy-peer-deps",
+    "build": "npm install",
     "postinstall": "apt-get update && apt-get install -y chromium chromium-driver",
     "start": "node index.js"
   },
