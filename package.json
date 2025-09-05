@@ -1,20 +1,13 @@
 {
   "name": "whatsapp-node",
   "version": "1.0.0",
-  "description": "Bot WhatsApp com WPPConnect e Chromium headless",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "npm install --legacy-peer-deps"
+    "build": "npm install --legacy-peer-deps",
+    "postinstall": "apt-get update && apt-get install -y chromium chromium-driver",
+    "start": "node index.js"
   },
   "dependencies": {
-    "@wppconnect-team/wppconnect": "1.37.4",
-    "puppeteer": "^21.3.0",
-    "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.1"
-  },
-  "engines": {
-    "node": "22.x"
-  },
-  "postinstall": "npx puppeteer install"
+    "@wppconnect-team/wppconnect": "^1.37.4"
+  }
 }
