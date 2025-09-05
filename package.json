@@ -1,12 +1,17 @@
 {
   "name": "whatsapp-node",
   "version": "1.0.0",
+  "description": "Conexão WhatsApp via WPPConnect e bot em Node.js",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npx puppeteer install chromium",
     "start": "node index.js"
   },
   "dependencies": {
-    "@wppconnect-team/wppconnect": "1.37.4",
-    "axios": "^1.6.0"
+    "@wppconnect-team/wppconnect": "^1.37.4",
+    "puppeteer": "^20.9.0"
+  },
+  "engines": {
+    "node": ">=22.16.0"
   }
 }
