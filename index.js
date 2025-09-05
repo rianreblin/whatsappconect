@@ -1,18 +1,21 @@
 const wppconnect = require('@wppconnect-team/wppconnect');
 
 wppconnect.create({
-  session: 'bot-whatsapp',
-  headless: true, // Chromium headless
+  session: 'bot-whatsapp',              // Nome da sessão
+  headless: true,                        // Roda sem interface gráfica
   browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
-}).then(client => {
-  console.log('✅ WPPConnect iniciado com sucesso');
+  executablePath: '/usr/bin/chromium'   // Usa o Chromium do sistema
+})
+.then(client => start(client))
+.catch(err => console.error('Erro ao iniciar WPPConnect:', err));
 
-  client.onMessage(message => {
-    if (message.body.toLowerCase() === 'oi') {
-      client.sendText(message.from, 'Olá! Eu sou seu bot 😄');
+function start(client) {
+  console.log('🚀 Bot conectado ao WhatsApp!');
+
+  // Exemplo de resposta automática
+  client.onMessage(msg => {
+    if (msg.body === 'Oi') {
+      client.sendText(msg.from, 'Olá! Tudo certo?');
     }
   });
-
-}).catch(err => {
-  console.error('❌ Erro ao iniciar WPPConnect:', err);
-});
+}
